@@ -6,6 +6,8 @@ from rest_framework import status
 
 from django.contrib.auth import login, authenticate
 
+from blog.models import Article
+
 
 def sum_numbers(*args):
     return sum(args)
@@ -20,8 +22,12 @@ class UserView(APIView):  # CBV 방식
         # numbers = request.data.get("numbers", [])
         # result = sum_numbers(*numbers)
         # return Response({'sum': result})
+        articles = Article.objects.filter(author=request.user)
+        result = []
+        for article in articles:
+            result.append(article.title)
 
-        return Response({'message': 'get method!!'})
+        return Response({'message': 'get method!!', 'titles': result})
 
     def post(self, request):
         return Response({'message': 'post method!!'})
