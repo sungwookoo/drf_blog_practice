@@ -16,3 +16,11 @@ class Article(models.Model):
     title = models.CharField("글 제목", max_length=100)
     category = models.ManyToManyField(to="Category", verbose_name="카테고리")
     content = models.TextField("글 내용")
+
+
+class Comment(models.Model):
+    article = models.ForeignKey(
+        "Article", on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        "user.User", on_delete=models.SET_NULL, null=True)
+    content = models.TextField("댓글 내용")
